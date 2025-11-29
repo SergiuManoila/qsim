@@ -14,7 +14,7 @@ vector<complex<double>> state_vector; //the state vector
 vector<vector<complex<double>>> operand;
 //the matrix we mutiply the state vector with, will be built from the various gates we want to apply
 
-simulator(unsigned int qubit_nr)
+public: simulator(unsigned int qubit_nr)
 {
     this->possible_states = 1 << qubit_nr;
     //calculate and store 2^qubit_nr not to do it each time
@@ -29,11 +29,24 @@ simulator(unsigned int qubit_nr)
     //overwrite 1,0 to all cells on the main diagonal, transforming the operand matrix to be the identity matrix
 };
 
-void apply_operand()
+public: void apply_operand()
 {
 
+auto clone_state = this->state_vector;
+
+for(unsigned int i=0;i<this->possible_states;i++)
+    {
+    state_vector[i] = {0.0, 0.0};  // reset before summing
+    for(unsigned int j=0;j<this->possible_states;j++)
+        this->state_vector[i]+=this->operand[i][j]*clone_state[j];
+
+    }
 };
 
+private: vector<vector<complex<double>>> tensor_product(vector<vector<complex<double>>> A,vector<vector<complex<double>>> B)
+{
+    
+}
 
 };
 
